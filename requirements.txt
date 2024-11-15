@@ -3,5 +3,6 @@ langchain_community
 langchain-core
 langchain-huggingface
 langchain-text-splitters
+langchain_chroma
 openai
 streamlit

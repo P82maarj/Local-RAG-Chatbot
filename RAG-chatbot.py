@@ -1,6 +1,7 @@
 # Conversational agent with RAG
 #
-#from openai import OpenAI
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 import asyncio
 import os
 import time

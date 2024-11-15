@@ -21,7 +21,7 @@ template_1 = """
     Question: {question}
     """
     # Point to the local server
-client = AsyncOpenAI(base_url="https://b611-217-216-73-62.ngrok-free.app", api_key="not-needed") #base_url="http://localhost:1234/v1", api_key="not-needed")
+client = AsyncOpenAI(base_url="https://b611-217-216-73-62.ngrok-free.app/v1", api_key="not-needed") #base_url="http://localhost:1234/v1", api_key="not-needed")
 prompt = ChatPromptTemplate.from_template(template_1)
 
 @st.cache_resource

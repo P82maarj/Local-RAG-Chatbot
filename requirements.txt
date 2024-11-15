@@ -3,5 +3,5 @@ langchain_community
 langchain-core
 langchain-huggingface
 langchain-text-splitters
-async-openai
+openai
 streamlit

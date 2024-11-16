@@ -1,8 +1,9 @@
 # Conversational agent with RAG
 #
-__import__('pysqlite3')
 import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+if sys.platform.startswith('win')==False:
+    __import__('pysqlite3')
+    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 import asyncio
 import os
 import time
@@ -92,7 +93,7 @@ async def main():
                 st.chat_message("assistant").markdown(new_message["content"])
                 st.session_state.history.append({"role": "assistant", "content": new_message["content"]})
                 st.write(str(round(elapsed,1)) + " s. " + str(round(len(new_message["content"])/elapsed,0)) + " char/s")
-        except (TypeError, ValueError) as e:
+        except Exception as e:
                  st.chat_message("system").markdown("LLM server is down")
 
 

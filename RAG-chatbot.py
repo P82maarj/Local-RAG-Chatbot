@@ -74,23 +74,28 @@ async def main():
         
         prompt_value = template_1.format(context=some_context,question=my_prompt)
         start = time.time()
-        completion = await client.chat.completions.create(
-        model="local-model",
-        messages=[{"role": "user", "content": prompt_value}],
-        temperature=0.7,
-        stream_options={"include_usage": True},
-        stream=True,
-        )
-        new_message = {"role": "assistant", "content": ""}  
-        async for chunk in completion:
-            if chunk.choices[0].delta.content:
-                new_message["content"] += chunk.choices[0].delta.content 
-        if new_message["content"]!="":   
-            end = time.time()
-            elapsed=end-start
-            st.chat_message("assistant").markdown(new_message["content"])
-            st.session_state.history.append({"role": "assistant", "content": new_message["content"]})
-            st.write(str(round(elapsed,1)) + " s. " + str(round(len(new_message["content"])/elapsed,0)) + " char/s")
+        try:
+            completion = await client.chat.completions.create(
+            model="local-model",
+            messages=[{"role": "user", "content": prompt_value}],
+            temperature=0.7,
+            stream_options={"include_usage": True},
+            stream=True,
+            )
+            new_message = {"role": "assistant", "content": ""}  
+            async for chunk in completion:
+                if chunk.choices[0].delta.content:
+                    new_message["content"] += chunk.choices[0].delta.content 
+            if new_message["content"]!="":   
+                end = time.time()
+                elapsed=end-start
+                st.chat_message("assistant").markdown(new_message["content"])
+                st.session_state.history.append({"role": "assistant", "content": new_message["content"]})
+                st.write(str(round(elapsed,1)) + " s. " + str(round(len(new_message["content"])/elapsed,0)) + " char/s")
+        except (TypeError, ValueError) as e:
+                 st.chat_message("system").markdown("LLM server is down")
+
+
 
 if __name__ == "__main__":
     asyncio.run(main())
